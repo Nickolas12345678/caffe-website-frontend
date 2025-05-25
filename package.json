@@ -9,6 +9,7 @@
     },
     "scripts": {
         "build": "tsc -b && vite build",
+        "heroku-postbuild": "npm run build",
         "start": "vite preview --host --port $PORT"
     },
     "dependencies": {
