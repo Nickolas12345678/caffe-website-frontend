@@ -16,7 +16,7 @@ const Header = () => {
     const [isOrderFormVisible, setIsOrderFormVisible] = useState(false);
     const [orderData, setOrderData] = useState({
         phoneNumber: "",
-        city: "Ужгород",
+        city: "",
         street: "",
         house: "",
         apartment: "",
@@ -95,33 +95,33 @@ const Header = () => {
     };
 
 
-    // const handleOrderSubmit = async () => {
-    //     const token = localStorage.getItem("token");
-    //     if (!token) return;
+    const handleOrderSubmit = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
 
-    //     try {
-    //         const orderPayload = {
-    //             phoneNumber: orderData.phoneNumber,
-    //             deliveryType: deliveryMethod,
-    //             city: deliveryMethod === 'delivery' ? orderData.city : undefined,
-    //             street: deliveryMethod === 'delivery' ? orderData.street : undefined,
-    //             building: deliveryMethod === 'delivery' ? orderData.house : undefined,
-    //             apartment: deliveryMethod === 'delivery' ? orderData.apartment : undefined,
-    //             pickupPoint: deliveryMethod === 'pickup'
-    //                 ? orderData.pickupPoint || "м. Ужгород, вул. Корзо, 123"
-    //                 : undefined,
-    //         };
-    //         await axios.post("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/orders/create", orderPayload, {
-    //             headers: { Authorization: `Bearer ${token}` },
-    //         });
-    //         fetchCart();
-    //         setOrderData({ ...orderData, phoneNumber: "", city: "", street: "", house: "", apartment: "", pickupPoint: "" });
-    //         setIsOrderFormVisible(false);
-    //         alert("Замовлення успішно оформлено!");
-    //     } catch (error) {
-    //         console.error("Помилка при оформленні замовлення", error);
-    //     }
-    // };
+        try {
+            const orderPayload = {
+                phoneNumber: orderData.phoneNumber,
+                deliveryType: deliveryMethod,
+                city: deliveryMethod === 'delivery' ? orderData.city : undefined,
+                street: deliveryMethod === 'delivery' ? orderData.street : undefined,
+                building: deliveryMethod === 'delivery' ? orderData.house : undefined,
+                apartment: deliveryMethod === 'delivery' ? orderData.apartment : undefined,
+                pickupPoint: deliveryMethod === 'pickup'
+                    ? orderData.pickupPoint || "м. Ужгород, вул. Корзо, 123"
+                    : undefined,
+            };
+            await axios.post("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/orders/create", orderPayload, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            fetchCart();
+            setOrderData({ ...orderData, phoneNumber: "", city: "", street: "", house: "", apartment: "", pickupPoint: "" });
+            setIsOrderFormVisible(false);
+            alert("Замовлення успішно оформлено!");
+        } catch (error) {
+            console.error("Помилка при оформленні замовлення", error);
+        }
+    };
 
     const removeItemFromCart = async (dishId: number) => {
         const token = localStorage.getItem("token");
@@ -425,6 +425,7 @@ const Header = () => {
                                             <button
                                                 type="submit"
                                                 className="bg-yellow-500 text-white py-2 px-4 rounded-md"
+                                                onClick={handleOrderSubmit}
                                             >
                                                 Оформити замовлення
                                             </button>
