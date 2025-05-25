@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import dessertAndCoffee from "../assets/images/dessertandcoffee.png";
 
 interface Category {
     id: number;
@@ -43,7 +44,7 @@ const Home = () => {
             <main>
                 <section className="w-full h-screen relative flex items-center justify-center overflow-hidden">
                     <img
-                        src="src/assets/images/dessertandcoffee.png"
+                        src={dessertAndCoffee}
                         alt="Dessert and coffee"
                         className="absolute inset-0 w-full h-full object-cover"
                     />
