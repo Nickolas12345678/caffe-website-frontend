@@ -43,6 +43,14 @@ const Header = () => {
         }
     };
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("Форма успішно заповнена:", orderData);
+    };
+
+
+
+
 
     const fetchUserProfile = async (token: string) => {
         try {
@@ -306,7 +314,7 @@ const Header = () => {
                             {isOrderFormVisible && (
                                 <div className="mt-6">
                                     <h3 className="text-lg font-semibold mb-4">Оформити замовлення</h3>
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="mt-4">
                                             <label className="block text-gray-700 font-semibold mb-2">Тип доставки</label>
                                             <select
@@ -328,17 +336,12 @@ const Header = () => {
                                                 onChange={(e) => {
                                                     const value = e.target.value;
 
-                                                    // Перевірка на префікс +380
                                                     if (value.startsWith('+380') || value === '') {
-                                                        // Очищаємо всі символи, що не є цифрами
                                                         const cleanedValue = value.replace(/[^0-9+]/g, "");
-
-                                                        // Якщо введено більше ніж 13 символів, не даємо вводити
                                                         if (cleanedValue.length <= 13) {
                                                             setOrderData({ ...orderData, phoneNumber: cleanedValue });
                                                         }
                                                     } else {
-                                                        // Якщо введено не +380, додаємо тільки +380 на початок
                                                         if (value === '') {
                                                             setOrderData({ ...orderData, phoneNumber: '' });
                                                         } else if (value.charAt(0) !== '+') {
@@ -394,7 +397,6 @@ const Header = () => {
                                                         className="w-full p-2 border border-gray-300 rounded-md"
                                                         value={orderData.apartment}
                                                         onChange={(e) => setOrderData({ ...orderData, apartment: e.target.value })}
-                                                        required
                                                     />
                                                 </div>
                                             </>
@@ -421,7 +423,7 @@ const Header = () => {
                                                 Скасувати
                                             </button>
                                             <button
-                                                type="button"
+                                                type="submit"
                                                 className="bg-yellow-500 text-white py-2 px-4 rounded-md"
                                                 onClick={handleOrderSubmit}
                                             >
