@@ -22,19 +22,33 @@ const SignupForm = () => {
         setSuccessMessage('');
         setErrorMessages({});
 
+        if (formData.password.length < 6) {
+            setErrorMessages({ password: 'Пароль має містити щонайменше 6 символів' });
+            return;
+        }
+
         try {
-            const response = await axios.post('http://localhost:8080/auth/signup', formData);
+            const response = await axios.post('https://formacafe-backend-60a4ca54e25f.herokuapp.com/auth/signup', formData);
             setSuccessMessage(response.data.message);
             setFormData({ username: '', email: '', password: '' });
             localStorage.setItem('token', response.data.jwt);
             localStorage.setItem('role', response.data.role);
             navigate("/");
-
         } catch (error: unknown) {
-            if (axios.isAxiosError(error) && error.response && error.response.data) {
-                setErrorMessages(error.response.data as { [key: string]: string });
+            if (axios.isAxiosError(error) && error.response) {
+                const data = error.response.data;
+
+                let message = "Користувач з таким email вже існує";
+
+                if (typeof data === 'string') {
+                    message = data;
+                } else if (typeof data === 'object' && data.message) {
+                    message = data.message;
+                }
+
+                setErrorMessages({ general: message });
             } else {
-                setErrorMessages({ general: "Щось пішло не так. Спробуйте ще раз." });
+                setErrorMessages({ general: "Користувач з таким email вже існує" });
             }
         }
     };
@@ -49,7 +63,9 @@ const SignupForm = () => {
                 )}
 
                 {errorMessages.general && (
-                    <div className="mb-4 text-red-600 font-semibold">{errorMessages.general}</div>
+                    <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded">
+                        {errorMessages.general}
+                    </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">

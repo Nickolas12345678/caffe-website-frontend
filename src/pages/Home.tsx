@@ -17,7 +17,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/categories")
+        axios.get("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/categories")
             .then((response) => {
                 setCategories(response.data);
                 setLoading(false);

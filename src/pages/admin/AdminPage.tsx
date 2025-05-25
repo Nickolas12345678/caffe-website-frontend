@@ -4,7 +4,9 @@ import { useAuth } from "../../context/AuthContext";
 import { ArrowLeft } from "lucide-react";
 import AdminUsersPage from "./AdminUsersPage";
 import AdminCategoriesPage from "./AdminCategoriesPage";
+import AdminIngredientsPage from "./AdminIngredientsPage";
 import AdminDishesPage from "./AdminDishesPage";
+import AdminOrdersPage from "./AdminOrdersPage";
 
 
 const AdminPage = () => {
@@ -42,10 +44,26 @@ const AdminPage = () => {
                             </li>
                             <li className="w-full">
                                 <Link
+                                    to="/admin/ingredients"
+                                    className="block w-full p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition text-gray-300 text-center"
+                                >
+                                    Інгредієнти
+                                </Link>
+                            </li>
+                            <li className="w-full">
+                                <Link
                                     to="/admin/dishes"
                                     className="block w-full p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition text-gray-300 text-center"
                                 >
                                     Страви
+                                </Link>
+                            </li>
+                            <li className="w-full">
+                                <Link
+                                    to="/admin/orders"
+                                    className="block w-full p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition text-gray-300 text-center"
+                                >
+                                    Замовлення
                                 </Link>
                             </li>
                         </ul>
@@ -70,6 +88,8 @@ const AdminPage = () => {
                         <Route path="/" element={<AdminUsersPage />} />
                         <Route path="categories" element={<AdminCategoriesPage />} />
                         <Route path="dishes" element={<AdminDishesPage />} />
+                        <Route path="ingredients" element={<AdminIngredientsPage />} />
+                        <Route path="orders" element={<AdminOrdersPage />} />
                     </Routes>
                 </div>
             </main>

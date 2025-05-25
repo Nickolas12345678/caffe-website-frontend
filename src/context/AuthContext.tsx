@@ -8,6 +8,8 @@ interface User {
     role: string;
 }
 
+
+
 interface AuthContextType {
     user: User | null;
     isAdmin: boolean;
@@ -26,7 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const token = localStorage.getItem("token");
         if (token) {
             axios
-                .get("http://localhost:8080/api/users/profile", {
+                .get("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/users/profile", {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then((res) => {
@@ -47,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("jwt", token);
         setLoading(true);
         axios
-            .get("http://localhost:8080/api/users/profile", {
+            .get("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/users/profile", {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {

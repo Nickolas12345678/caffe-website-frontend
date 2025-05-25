@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import defaultFoodImage from '../assets/images/defaultfoodimage.png';
+import { useCart } from "../context/CartContext";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 
 interface Ingredient {
     name: string;
     quantity: string;
+    unit?: string;
 }
 
 interface Dish {
@@ -20,14 +23,16 @@ interface Dish {
 }
 
 const DishDetails = () => {
-    const { dishId } = useParams(); // Отримуємо dishId з URL
-    const [dish, setDish] = useState<Dish | null>(null);  // Змінна для збереження інформації про товар
+    const { fetchCart } = useCart();
+    const { dishId } = useParams();
+    const [dish, setDish] = useState<Dish | null>(null);
+    const [isItemAdded, setIsItemAdded] = useState(false);
 
     useEffect(() => {
         if (dishId) {
-            axios.get(`http://localhost:8080/api/dishes/${dishId}`)
+            axios.get(`https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/dishes/${dishId}`)
                 .then(response => {
-                    setDish(response.data); // Отримуємо деталі товару
+                    setDish(response.data);
                 })
                 .catch(error => {
                     console.error("Error fetching dish details:", error);
@@ -35,8 +40,26 @@ const DishDetails = () => {
         }
     }, [dishId]);
 
-    const handleAddToCart = () => {
-        console.log(`${dish?.name} додано в кошик!`);
+
+    const handleAddToCart = async () => {
+        const token = localStorage.getItem('token');
+        if (!token || !dish) return;
+
+        try {
+            await axios.post('https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/cart/add', {
+                dishId: dish.id,
+                quantity: 1,
+            }, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            setIsItemAdded(true);
+            fetchCart(); // <--- оновлює кошик у Header
+
+            setTimeout(() => setIsItemAdded(false), 2000);
+        } catch (error) {
+            console.error("Error adding dish to cart:", error);
+        }
     };
 
     if (!dish) {
@@ -51,7 +74,7 @@ const DishDetails = () => {
                     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
                         <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
                             <img
-                                src={dish.imageUrl}
+                                src={dish.imageUrl?.trim() ? dish.imageUrl : defaultFoodImage}
                                 alt={dish.name}
                                 className="w-full h-96 object-cover rounded-lg shadow-lg"
                             />
@@ -65,9 +88,10 @@ const DishDetails = () => {
                                 <p className="text-lg text-gray-700 font-semibold">Інгредієнти:</p>
                                 <ul className="text-gray-500 mt-2">
                                     {dish?.ingredients?.map((ing, idx) => (
-                                        <li key={idx}>{ing.name} – {ing.quantity}</li>
+                                        <li key={idx}>
+                                            {ing.name} – {ing.quantity} {ing.unit ?? ''}
+                                        </li>
                                     )) || <p>Інгредієнти відсутні</p>}
-
                                 </ul>
 
                                 <p className="text-lg text-gray-700 font-semibold mt-4">Вага:</p>
@@ -90,9 +114,15 @@ const DishDetails = () => {
                     </div>
                 </section>
             </main>
+
+            {/* Повідомлення про успішне додавання в кошик */}
+            {isItemAdded && (
+                <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-full shadow-lg">
+                    Страву успішно додано до кошика!
+                </div>
+            )}
         </div>
     );
 };
 
 export default DishDetails;
-

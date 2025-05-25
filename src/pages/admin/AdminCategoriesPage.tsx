@@ -31,7 +31,7 @@ const AdminCategoriesPage = () => {
             try {
                 const token = localStorage.getItem("token");
                 const response = await axios.get<Category[]>(
-                    "http://localhost:8080/api/categories",
+                    "https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/categories",
                     { headers: { token } }
                 );
                 setCategories(response.data);
@@ -47,7 +47,7 @@ const AdminCategoriesPage = () => {
         if (!window.confirm("Ви впевнені, що хочете видалити цю категорію?")) return;
         try {
             const token = localStorage.getItem("token");
-            await axios.delete(`http://localhost:8080/api/categories/${id}`, {
+            await axios.delete(`https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/categories/${id}`, {
                 headers: { token },
             });
             setCategories((prev) => prev.filter((cat) => cat.id !== id));
@@ -68,7 +68,7 @@ const AdminCategoriesPage = () => {
 
             if (editingCategory) {
                 const response = await axios.put(
-                    `http://localhost:8080/api/categories/${editingCategory.id}`,
+                    `https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/categories/${editingCategory.id}`,
                     categoryData,
                     { headers: { token } }
                 );
@@ -78,7 +78,7 @@ const AdminCategoriesPage = () => {
                 alert("Категорію оновлено");
             } else {
                 const response = await axios.post(
-                    "http://localhost:8080/api/categories",
+                    "https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/categories",
                     categoryData,
                     { headers: { token } }
                 );

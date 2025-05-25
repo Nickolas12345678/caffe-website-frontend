@@ -30,7 +30,7 @@ const AdminUsersPage = () => {
             try {
                 const token = localStorage.getItem("token");
                 const response = await axios.get<User[]>(
-                    "http://localhost:8080/api/users/all",
+                    "https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/users/all",
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }
@@ -48,7 +48,7 @@ const AdminUsersPage = () => {
         if (!window.confirm(`Ви впевнені, що хочете видалити користувача ${username}?`)) return;
         try {
             const token = localStorage.getItem("token");
-            await axios.delete(`http://localhost:8080/api/users/${userId}`, {
+            await axios.delete(`https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/users/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
@@ -69,7 +69,7 @@ const AdminUsersPage = () => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.put(
-                `http://localhost:8080/api/users/role/${userId}`,
+                `https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/users/role/${userId}`,
                 { role: newRole },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -89,7 +89,7 @@ const AdminUsersPage = () => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.post(
-                "http://localhost:8080/auth/signup",
+                "https://formacafe-backend-60a4ca54e25f.herokuapp.com/auth/signup",
                 newUser,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

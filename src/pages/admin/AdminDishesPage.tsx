@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import defaultFoodImage from '../../assets/images/defaultfoodimage.png';
 
 interface Ingredient {
     name: string;
     quantity: string;
+    unit?: string;
 }
 
 interface Category {
@@ -27,10 +29,31 @@ const AdminDishesPage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [editId, setEditId] = useState<number | null>(null);
+    const [ingredientStocks, setIngredientStocks] = useState<{ name: string, availableQuantity: number, unit: string }[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
 
-    const [form, setForm] = useState({
+    // const [form, setForm] = useState({
+    //     name: "",
+    //     description: "",
+    //     price: 0,
+    //     imageUrl: "",
+    //     weight: "",
+    //     preparationTime: "",
+    //     categoryId: 1,
+    //     ingredients: [{ name: "", quantity: "" }],
+    // });
+
+    const [form, setForm] = useState<{
+        name: string;
+        description: string;
+        price: number;
+        imageUrl: string;
+        weight: string;
+        preparationTime: string;
+        categoryId: number;
+        ingredients: Ingredient[];
+    }>({
         name: "",
         description: "",
         price: 0,
@@ -38,12 +61,13 @@ const AdminDishesPage = () => {
         weight: "",
         preparationTime: "",
         categoryId: 1,
-        ingredients: [{ name: "", quantity: "" }],
+        ingredients: [{ name: "", quantity: "", unit: "" }],
     });
+
 
     const loadDishes = async () => {
         try {
-            const res = await fetch(`http://localhost:8080/api/dishes?page=${page}&size=10`);
+            const res = await fetch(`https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/dishes?page=${page}&size=10`);
             const data = await res.json();
 
             if (Array.isArray(data.content)) {
@@ -62,7 +86,7 @@ const AdminDishesPage = () => {
 
     const loadCategories = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/categories");
+            const res = await fetch("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/categories");
             const data = await res.json();
             if (Array.isArray(data)) {
                 setCategories(data);
@@ -74,9 +98,20 @@ const AdminDishesPage = () => {
         }
     };
 
+    const loadIngredientStocks = async () => {
+        try {
+            const res = await fetch("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/ingredient-stocks");
+            const data = await res.json();
+            setIngredientStocks(data);
+        } catch (err) {
+            console.error("Failed to fetch ingredient stocks", err);
+        }
+    };
+
     useEffect(() => {
         loadDishes();
         loadCategories();
+        loadIngredientStocks();
     }, [page]);
 
     const handleSubmit = async () => {
@@ -93,10 +128,25 @@ const AdminDishesPage = () => {
             return;
         }
 
+        for (const ing of form.ingredients) {
+            const stock = ingredientStocks.find(i => i.name === ing.name.trim());
+            const requestedQty = parseFloat(ing.quantity);
+
+            if (!stock) {
+                alert(`Інгредієнт "${ing.name}" відсутній на складі.`);
+                return;
+            }
+
+            if (isNaN(requestedQty) || requestedQty > stock.availableQuantity) {
+                alert(`Недостатньо інгредієнту "${ing.name}". Доступно: ${stock.availableQuantity} ${stock.unit}`);
+                return;
+            }
+        }
+
         try {
             const url = editId
-                ? `http://localhost:8080/api/dishes/${editId}`
-                : `http://localhost:8080/api/dishes`;
+                ? `https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/dishes/${editId}`
+                : `https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/dishes`;
 
             const method = editId ? "PUT" : "POST";
 
@@ -131,7 +181,7 @@ const AdminDishesPage = () => {
     const handleDelete = async (id: number) => {
         if (window.confirm("Видалити страву?")) {
             try {
-                await fetch(`http://localhost:8080/api/dishes/${id}`, { method: "DELETE" });
+                await fetch(`https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/dishes/${id}`, { method: "DELETE" });
                 loadDishes();
             } catch {
                 alert("Помилка при видаленні");
@@ -193,7 +243,7 @@ const AdminDishesPage = () => {
             <div className="mt-6 bg-white p-6 rounded-lg shadow-md w-full max-w-7xl">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Страви</h2>
                 <div className="overflow-x-auto">
-                    <table className="w-full border border-gray-300 rounded-lg overflow-hidden">
+                    <table className="w-full  border border-gray-300 rounded-lg overflow-hidden">
                         <thead>
                             <tr className="bg-gray-700 text-white">
                                 <th className="p-3 text-left">ID</th>
@@ -212,19 +262,23 @@ const AdminDishesPage = () => {
                             {dishes.map((dish, i) => (
                                 <tr key={dish.id} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
                                     <td className="p-3">{dish.id}</td>
-                                    <td className="p-3">
-                                        <img src={dish.imageUrl} alt={dish.name} className="w-20 h-20 object-cover rounded" />
+                                    <td className="p-3 align-middle">
+                                        <img
+                                            src={dish.imageUrl?.trim() ? dish.imageUrl : defaultFoodImage}
+                                            alt={dish.name}
+                                            className="w-20 h-20 object-cover rounded"
+                                        />
                                     </td>
-                                    <td className="p-3">{dish.name}</td>
-                                    <td className="p-3">{dish.description}</td>
-                                    <td className="p-3">{dish.price.toFixed(2)}</td>
-                                    <td className="p-3">{dish.weight || "-"}</td>
-                                    <td className="p-3">{dish.preparationTime || "-"}</td>
-                                    <td className="p-3">{dish.category?.name || "Без категорії"}</td>
-                                    <td className="p-3">
+                                    <td className="p-3 align-middle">{dish.name}</td>
+                                    <td className="p-3 align-middle">{dish.description}</td>
+                                    <td className="p-3 align-middle">{dish.price.toFixed(2)}</td>
+                                    <td className="p-3 align-middle">{dish.weight || "-"}</td>
+                                    <td className="p-3 align-middle">{dish.preparationTime || "-"}</td>
+                                    <td className="p-3 align-middle">{dish.category?.name || "Без категорії"}</td>
+                                    <td className="p-3 align-middle">
                                         <ul className="list-disc list-inside">
                                             {dish.ingredients.map((ing, idx) => (
-                                                <li key={idx}>{ing.name} – {ing.quantity}</li>
+                                                <li key={idx}>{ing.name} – {ing.quantity} {ing.unit || ""}</li>
                                             ))}
                                         </ul>
                                     </td>
@@ -296,7 +350,19 @@ const AdminDishesPage = () => {
                             <label className="block font-semibold">Інгредієнти</label>
                             {form.ingredients.map((ing, idx) => (
                                 <div key={idx} className="flex gap-2 mb-1">
-                                    <input className="w-1/2 p-2 border rounded" placeholder="Назва" value={ing.name} onChange={(e) => updateIngredient(idx, "name", e.target.value)} />
+                                    <select
+                                        className="w-1/2 p-2 border rounded"
+                                        value={ing.name}
+                                        onChange={(e) => updateIngredient(idx, "name", e.target.value)}
+                                    >
+                                        <option value="">Оберіть інгредієнт</option>
+                                        {ingredientStocks.map(stock => (
+                                            <option key={stock.name} value={stock.name}>
+                                                {stock.name} (доступно: {stock.availableQuantity} {stock.unit})
+                                            </option>
+                                        ))}
+                                    </select>
+
                                     <input className="w-1/2 p-2 border rounded" placeholder="Кількість" value={ing.quantity} onChange={(e) => updateIngredient(idx, "quantity", e.target.value)} />
                                     <button onClick={() => removeIngredient(idx)} className="text-red-500 font-bold">×</button>
                                 </div>

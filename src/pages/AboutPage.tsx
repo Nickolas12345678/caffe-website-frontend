@@ -31,7 +31,7 @@ const About = () => {
                 </div>
             </section>
 
-            <section className="bg-yellow-50 py-16 px-6">
+            <section className="bg-yellow-50 py-16 pb-0 px-6">
                 <div className="max-w-6xl mx-auto text-center">
                     <h2 className="text-3xl font-bold mb-10 text-yellow-700">Наші цінності</h2>
                     <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
