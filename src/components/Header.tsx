@@ -54,7 +54,7 @@ const Header = () => {
 
     const fetchUserProfile = async (token: string) => {
         try {
-            const response = await axios.get('https://formacafe-backend-60a4ca54e25f.herokuapp.com//api/users/profile', {
+            const response = await axios.get('https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/users/profile', {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setUser({
