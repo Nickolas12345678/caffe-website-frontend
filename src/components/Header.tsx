@@ -103,10 +103,10 @@ const Header = () => {
             const orderPayload = {
                 phoneNumber: orderData.phoneNumber,
                 deliveryType: deliveryMethod,
-                city: deliveryMethod === 'delivery' ? orderData.city : undefined,
-                street: deliveryMethod === 'delivery' ? orderData.street : undefined,
-                building: deliveryMethod === 'delivery' ? orderData.house : undefined,
-                apartment: deliveryMethod === 'delivery' ? orderData.apartment : undefined,
+                city: deliveryMethod === 'delivery',
+                street: deliveryMethod === 'delivery',
+                building: deliveryMethod === 'delivery',
+                apartment: deliveryMethod === 'delivery',
                 pickupPoint: deliveryMethod === 'pickup'
                     ? orderData.pickupPoint || "м. Ужгород, вул. Корзо, 123"
                     : undefined,
