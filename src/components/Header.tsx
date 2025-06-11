@@ -137,10 +137,6 @@ const Header = () => {
             }
         }
 
-        if (deliveryMethod === 'pickup' && !orderData.pickupPoint) {
-            alert("Будь ласка, вкажіть пункт самовивозу.");
-            return;
-        }
 
         try {
             const orderPayload = {
