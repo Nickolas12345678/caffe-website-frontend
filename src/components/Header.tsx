@@ -15,8 +15,9 @@ const Header = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const [isOrderFormVisible, setIsOrderFormVisible] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [orderData, setOrderData] = useState({
-        phoneNumber: "",
+        phoneNumber: "+380",
         city: "Ужгород",
         street: "",
         house: "",
@@ -155,7 +156,7 @@ const Header = () => {
 
             fetchCart();
             setOrderData({
-                phoneNumber: "",
+                phoneNumber: "+380",
                 city: "Ужгород",
                 street: "",
                 house: "",
@@ -209,7 +210,8 @@ const Header = () => {
 
 
 
-                <nav className="flex-1 flex justify-center space-x-4">
+                {/* <nav className="flex-1 flex justify-center space-x-4"> */}
+                <nav className="hidden md:flex flex-1 justify-center space-x-4">
                     <span
                         onClick={() => handleNavigateToSection("menu")}
                         className="text-black font-bold px-6 py-2 cursor-pointer hover:text-yellow-500 transition"
@@ -231,6 +233,16 @@ const Header = () => {
                 </nav>
 
                 <div className="flex items-center space-x-3 relative" ref={dropdownRef}>
+                    <div className="md:hidden">
+                        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                            <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" strokeWidth="2"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round"
+                                    d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+
                     {user ? (
                         <>
                             <div
@@ -485,12 +497,85 @@ const Header = () => {
                     )}
                 </div>
             )}
+            {isMobileMenuOpen && (
+                <div className="md:hidden bg-white border-t shadow px-4 py-4 space-y-4">
+                    <span
+                        onClick={() => {
+                            handleNavigateToSection("menu");
+                            setIsMobileMenuOpen(false);
+                        }}
+                        className="block font-bold text-gray-800 cursor-pointer"
+                    >
+                        Меню
+                    </span>
+                    <span
+                        onClick={() => {
+                            handleNavigateToSection("contacts");
+                            setIsMobileMenuOpen(false);
+                        }}
+                        className="block font-bold text-gray-800 cursor-pointer"
+                    >
+                        Контакти
+                    </span>
+                    <span
+                        onClick={() => {
+                            navigate("/about");
+                            setIsMobileMenuOpen(false);
+                        }}
+                        className="block font-bold text-gray-800 cursor-pointer"
+                    >
+                        Про нас
+                    </span>
 
-
-
+                    {user ? (
+                        <>
+                            <span
+                                onClick={() => {
+                                    navigate("/my-orders");
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="block text-blue-500 cursor-pointer"
+                            >
+                                Мої замовлення
+                            </span>
+                            <button
+                                onClick={() => {
+                                    handleLogout();
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="block w-full text-left text-red-600"
+                            >
+                                Вийти
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => {
+                                    navigate("/signin");
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="block w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-3 rounded-lg"
+                            >
+                                Увійти
+                            </button>
+                            <button
+                                onClick={() => {
+                                    navigate("/signup");
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="block w-full bg-white hover:bg-yellow-400 hover:text-white text-gray-800 font-bold py-2 px-3 rounded-lg border border-yellow-400"
+                            >
+                                Зареєструватися
+                            </button>
+                        </>
+                    )}
+                </div>
+            )}
 
 
         </header>
+
     );
 };
 
