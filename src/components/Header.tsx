@@ -237,7 +237,7 @@ const Header = () => {
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden p-2 rounded-xl border border-gray-800"
+                            className="md:hidden p-3 rounded-xl border border-black bg-white"
                         >
                             <svg
                                 className="w-6 h-6 text-gray-500"
@@ -247,13 +247,10 @@ const Header = () => {
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
+
 
 
                     </div>
