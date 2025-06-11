@@ -237,19 +237,24 @@ const Header = () => {
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden text-gray-800 p-2"
+                            className="md:hidden p-2 rounded-xl border border-gray-800"
                         >
                             <svg
-                                className="w-6 h-6"
+                                className="w-6 h-6 text-gray-500"
                                 fill="none"
                                 stroke="currentColor"
                                 strokeWidth="2"
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
                             </svg>
                         </button>
+
 
                     </div>
 
@@ -319,7 +324,6 @@ const Header = () => {
 
 
             {isCartOpen && (
-                // <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4 w-96 z-50 max-h-[80vh] overflow-y-auto">
                 <div className="absolute top-16 right-2 left-2 md:right-4 md:left-auto bg-white shadow-lg rounded-lg p-4 w-auto md:w-96 z-50 max-h-[80vh] overflow-y-auto">
                     <h2 className="text-xl font-bold mb-4">Кошик</h2>
 
