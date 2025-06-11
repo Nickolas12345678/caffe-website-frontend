@@ -55,71 +55,143 @@ const SignupForm = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        // <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        //     <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+        //         <h2 className="text-2xl font-bold mb-6 text-center">Реєстрація</h2>
+
+        //         {successMessage && (
+        //             <div className="mb-4 text-green-600 font-semibold">{successMessage}</div>
+        //         )}
+
+        //         {errorMessages.general && (
+        //             <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded">
+        //                 {errorMessages.general}
+        //             </div>
+        //         )}
+
+        //         <form onSubmit={handleSubmit} className="space-y-4">
+        //             <div>
+        //                 <label className="block text-gray-700">Ім'я користувача</label>
+        //                 <input
+        //                     type="text"
+        //                     name="username"
+        //                     value={formData.username}
+        //                     onChange={handleChange}
+        //                     className={`w-full p-2 border ${errorMessages.username ? 'border-red-500' : 'border-gray-300'} rounded`}
+        //                 />
+        //                 {errorMessages.username && (
+        //                     <p className="text-red-500 text-sm">{errorMessages.username}</p>
+        //                 )}
+        //             </div>
+
+        //             <div>
+        //                 <label className="block text-gray-700">Email</label>
+        //                 <input
+        //                     type="email"
+        //                     name="email"
+        //                     value={formData.email}
+        //                     onChange={handleChange}
+        //                     className={`w-full p-2 border ${errorMessages.email ? 'border-red-500' : 'border-gray-300'} rounded`}
+        //                 />
+        //                 {errorMessages.email && (
+        //                     <p className="text-red-500 text-sm">{errorMessages.email}</p>
+        //                 )}
+        //             </div>
+
+        //             <div>
+        //                 <label className="block text-gray-700">Пароль</label>
+        //                 <input
+        //                     type="password"
+        //                     name="password"
+        //                     value={formData.password}
+        //                     onChange={handleChange}
+        //                     className={`w-full p-2 border ${errorMessages.password ? 'border-red-500' : 'border-gray-300'} rounded`}
+        //                 />
+        //                 {errorMessages.password && (
+        //                     <p className="text-red-500 text-sm">{errorMessages.password}</p>
+        //                 )}
+        //             </div>
+
+        //             <button
+        //                 type="submit"
+        //                 className="w-full bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded"
+        //             >
+        //                 Зареєструватися
+        //             </button>
+        //         </form>
+        //     </div>
+        // </div>
+        <div className="min-h-screen bg-gray-100">
+            {/* Хедер — завжди зверху, фіксовано або звичайно */}
             <Header />
-            <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Реєстрація</h2>
 
-                {successMessage && (
-                    <div className="mb-4 text-green-600 font-semibold">{successMessage}</div>
-                )}
+            {/* Форма */}
+            <div className="flex items-center justify-center pt-20 px-4">
+                <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+                    <h2 className="text-2xl font-bold mb-6 text-center">Реєстрація</h2>
 
-                {errorMessages.general && (
-                    <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded">
-                        {errorMessages.general}
-                    </div>
-                )}
+                    {successMessage && (
+                        <div className="mb-4 text-green-600 font-semibold">{successMessage}</div>
+                    )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-gray-700">Ім'я користувача</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            className={`w-full p-2 border ${errorMessages.username ? 'border-red-500' : 'border-gray-300'} rounded`}
-                        />
-                        {errorMessages.username && (
-                            <p className="text-red-500 text-sm">{errorMessages.username}</p>
-                        )}
-                    </div>
+                    {errorMessages.general && (
+                        <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded">
+                            {errorMessages.general}
+                        </div>
+                    )}
 
-                    <div>
-                        <label className="block text-gray-700">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className={`w-full p-2 border ${errorMessages.email ? 'border-red-500' : 'border-gray-300'} rounded`}
-                        />
-                        {errorMessages.email && (
-                            <p className="text-red-500 text-sm">{errorMessages.email}</p>
-                        )}
-                    </div>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* ... Всі поля ... */}
+                        <div>
+                            <label className="block text-gray-700">Ім'я користувача</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                className={`w-full p-2 border ${errorMessages.username ? 'border-red-500' : 'border-gray-300'} rounded`}
+                            />
+                            {errorMessages.username && (
+                                <p className="text-red-500 text-sm">{errorMessages.username}</p>
+                            )}
+                        </div>
 
-                    <div>
-                        <label className="block text-gray-700">Пароль</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className={`w-full p-2 border ${errorMessages.password ? 'border-red-500' : 'border-gray-300'} rounded`}
-                        />
-                        {errorMessages.password && (
-                            <p className="text-red-500 text-sm">{errorMessages.password}</p>
-                        )}
-                    </div>
+                        <div>
+                            <label className="block text-gray-700">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className={`w-full p-2 border ${errorMessages.email ? 'border-red-500' : 'border-gray-300'} rounded`}
+                            />
+                            {errorMessages.email && (
+                                <p className="text-red-500 text-sm">{errorMessages.email}</p>
+                            )}
+                        </div>
 
-                    <button
-                        type="submit"
-                        className="w-full bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded"
-                    >
-                        Зареєструватися
-                    </button>
-                </form>
+                        <div>
+                            <label className="block text-gray-700">Пароль</label>
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className={`w-full p-2 border ${errorMessages.password ? 'border-red-500' : 'border-gray-300'} rounded`}
+                            />
+                            {errorMessages.password && (
+                                <p className="text-red-500 text-sm">{errorMessages.password}</p>
+                            )}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded"
+                        >
+                            Зареєструватися
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );
