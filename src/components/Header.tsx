@@ -205,7 +205,8 @@ const Header = () => {
                     onClick={() => navigate("/")}
                 >
                     <img src={logo} alt="Logo" className="h-8 w-8" />
-                    <span className="text-2xl font-bold text-gray-800">FormaCafe</span>
+                    {/* <span className="text-2xl font-bold text-gray-800">FormaCafe</span> */}
+                    <span className="text-2xl font-bold text-gray-800 whitespace-nowrap max-w-[150px] truncate">FormaCaffe</span>
                 </div>
 
 
@@ -234,13 +235,22 @@ const Header = () => {
 
                 <div className="flex items-center space-x-3 relative" ref={dropdownRef}>
                     <div className="md:hidden">
-                        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                            <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" strokeWidth="2"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round"
-                                    d="M4 6h16M4 12h16M4 18h16"></path>
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="md:hidden text-gray-800 p-2"
+                        >
+                            <svg
+                                className="w-6 h-6"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>
                         </button>
+
                     </div>
 
                     {user ? (
@@ -309,7 +319,8 @@ const Header = () => {
 
 
             {isCartOpen && (
-                <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4 w-96 z-50 max-h-[80vh] overflow-y-auto">
+                // <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4 w-96 z-50 max-h-[80vh] overflow-y-auto">
+                <div className="absolute top-16 right-2 left-2 md:right-4 md:left-auto bg-white shadow-lg rounded-lg p-4 w-auto md:w-96 z-50 max-h-[80vh] overflow-y-auto">
                     <h2 className="text-xl font-bold mb-4">Кошик</h2>
 
                     {cartItems.length === 0 ? (
@@ -391,7 +402,7 @@ const Header = () => {
                                             <input
                                                 type="tel"
                                                 placeholder="+380XXXXXXXXX"
-                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                                className="w-full p-2 border border-gray-300 rounded-md text-sm"
                                                 value={orderData.phoneNumber}
                                                 onChange={(e) => {
                                                     const value = e.target.value;
@@ -444,7 +455,7 @@ const Header = () => {
                                                     <label className="block text-gray-700 font-semibold mb-2">Будинок</label>
                                                     <input
                                                         type="text"
-                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                        className="w-full p-2 border border-gray-300 rounded-md text-sm"
                                                         value={orderData.house}
                                                         onChange={(e) => setOrderData({ ...orderData, house: e.target.value })}
                                                         required
@@ -454,7 +465,7 @@ const Header = () => {
                                                     <label className="block text-gray-700 font-semibold mb-2">Квартира</label>
                                                     <input
                                                         type="text"
-                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                        className="w-full p-2 border border-gray-300 rounded-md text-sm"
                                                         value={orderData.apartment}
                                                         onChange={(e) => setOrderData({ ...orderData, apartment: e.target.value })}
                                                     />
@@ -467,7 +478,7 @@ const Header = () => {
                                                 <label className="block text-gray-700 font-semibold mb-2">Пункт самовивозу</label>
                                                 <input
                                                     type="text"
-                                                    className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
+                                                    className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-sm"
                                                     value="м. Ужгород, вул. Корзо, 123"
                                                     readOnly
                                                 />
