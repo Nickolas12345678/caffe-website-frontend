@@ -43,7 +43,12 @@ const DishDetails = () => {
 
     const handleAddToCart = async () => {
         const token = localStorage.getItem('token');
-        if (!token || !dish) return;
+        if (!token) {
+            alert("Щоб зробити замовлення, увійдіть у свій обліковий запис.");
+            return;
+        }
+
+        if (!dish) return;
 
         try {
             await axios.post('https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/cart/add', {
@@ -54,7 +59,7 @@ const DishDetails = () => {
             });
 
             setIsItemAdded(true);
-            fetchCart(); // <--- оновлює кошик у Header
+            fetchCart();
 
             setTimeout(() => setIsItemAdded(false), 2000);
         } catch (error) {

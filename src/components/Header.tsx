@@ -13,6 +13,7 @@ const Header = () => {
     const [user, setUser] = useState<{ username: string; email: string } | null>(null);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     const [isOrderFormVisible, setIsOrderFormVisible] = useState(false);
     const [orderData, setOrderData] = useState({
         phoneNumber: "",
@@ -47,9 +48,6 @@ const Header = () => {
         e.preventDefault();
         console.log("Форма успішно заповнена:", orderData);
     };
-
-
-
 
 
     const fetchUserProfile = async (token: string) => {
