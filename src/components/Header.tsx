@@ -150,9 +150,7 @@ const Header = () => {
                 street: deliveryMethod === 'delivery' ? orderData.street : undefined,
                 building: deliveryMethod === 'delivery' ? orderData.house : undefined,
                 apartment: deliveryMethod === 'delivery' ? orderData.apartment : undefined,
-                pickupPoint: deliveryMethod === 'pickup'
-                    ? orderData.pickupPoint || "м. Ужгород, вул. Корзо, 123"
-                    : undefined,
+                pickupPoint: deliveryMethod === 'pickup' ? "м. Ужгород, вул. Корзо, 123" : undefined,
             };
 
             await axios.post("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/orders/create", orderPayload, {
