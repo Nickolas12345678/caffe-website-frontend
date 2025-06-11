@@ -93,9 +93,54 @@ const Header = () => {
     };
 
 
+    // const handleOrderSubmit = async () => {
+    //     const token = localStorage.getItem("token");
+    //     if (!token) return;
+
+    //     try {
+    //         const orderPayload = {
+    //             phoneNumber: orderData.phoneNumber,
+    //             deliveryType: deliveryMethod,
+    //             city: deliveryMethod === 'delivery' ? orderData.city : undefined,
+    //             street: deliveryMethod === 'delivery' ? orderData.street : undefined,
+    //             building: deliveryMethod === 'delivery' ? orderData.house : undefined,
+    //             apartment: deliveryMethod === 'delivery' ? orderData.apartment : undefined,
+    //             pickupPoint: deliveryMethod === 'pickup'
+    //                 ? orderData.pickupPoint || "м. Ужгород, вул. Корзо, 123"
+    //                 : undefined,
+    //         };
+    //         await axios.post("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/orders/create", orderPayload, {
+    //             headers: { Authorization: `Bearer ${token}` },
+    //         });
+    //         fetchCart();
+    //         setOrderData({ ...orderData, phoneNumber: "", city: "Ужгород", street: "", house: "", apartment: "", pickupPoint: "вул. Корзо, 123" });
+    //         setIsOrderFormVisible(false);
+    //         alert("Замовлення успішно оформлено!");
+    //     } catch (error) {
+    //         console.error("Помилка при оформленні замовлення", error);
+    //     }
+    // };
+
     const handleOrderSubmit = async () => {
         const token = localStorage.getItem("token");
         if (!token) return;
+
+        if (!orderData.phoneNumber || orderData.phoneNumber.length !== 13) {
+            alert("Будь ласка, введіть правильний номер телефону у форматі +380XXXXXXXXX.");
+            return;
+        }
+
+        if (deliveryMethod === 'delivery') {
+            if (!orderData.street || !orderData.house) {
+                alert("Будь ласка, заповніть всі обов’язкові поля для доставки (вулиця та будинок).");
+                return;
+            }
+        }
+
+        if (deliveryMethod === 'pickup' && !orderData.pickupPoint) {
+            alert("Будь ласка, вкажіть пункт самовивозу.");
+            return;
+        }
 
         try {
             const orderPayload = {
@@ -109,17 +154,28 @@ const Header = () => {
                     ? orderData.pickupPoint || "м. Ужгород, вул. Корзо, 123"
                     : undefined,
             };
+
             await axios.post("https://formacafe-backend-60a4ca54e25f.herokuapp.com/api/orders/create", orderPayload, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+
             fetchCart();
-            setOrderData({ ...orderData, phoneNumber: "", city: "Ужгород", street: "", house: "", apartment: "", pickupPoint: "вул. Корзо, 123" });
+            setOrderData({
+                phoneNumber: "",
+                city: "Ужгород",
+                street: "",
+                house: "",
+                apartment: "",
+                pickupPoint: "вул. Корзо, 123"
+            });
             setIsOrderFormVisible(false);
             alert("Замовлення успішно оформлено!");
         } catch (error) {
             console.error("Помилка при оформленні замовлення", error);
+            alert("Сталася помилка під час оформлення замовлення.");
         }
     };
+
 
     const removeItemFromCart = async (dishId: number) => {
         const token = localStorage.getItem("token");
