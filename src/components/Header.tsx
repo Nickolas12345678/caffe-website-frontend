@@ -301,18 +301,20 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <button
-                                onClick={() => navigate("/signin")}
-                                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-3 rounded-lg transition"
-                            >
-                                Увійти
-                            </button>
-                            <button
-                                onClick={() => navigate("/signup")}
-                                className="bg-white hover:bg-yellow-400 hover:text-white text-gray-800 font-bold py-2 px-3 rounded-lg transition border border-yellow-400"
-                            >
-                                Зареєструватися
-                            </button>
+                            <div className="hidden md:flex items-center space-x-2">
+                                <button
+                                    onClick={() => navigate("/signin")}
+                                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2 px-3 rounded-lg transition"
+                                >
+                                    Увійти
+                                </button>
+                                <button
+                                    onClick={() => navigate("/signup")}
+                                    className="bg-white hover:bg-yellow-400 hover:text-white text-gray-800 font-bold py-2 px-3 rounded-lg transition border border-yellow-400"
+                                >
+                                    Зареєструватися
+                                </button>
+                            </div>
                         </>
                     )}
                 </div>
