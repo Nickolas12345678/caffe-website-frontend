@@ -44,7 +44,7 @@ const DishDetails = () => {
     const handleAddToCart = async () => {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert("Щоб зробити замовлення, увійдіть у свій обліковий запис.");
+            alert("Щоб зробити замовлення, увійдіть у свій обліковий запис, або зареєструйтесь");
             return;
         }
 

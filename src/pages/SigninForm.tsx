@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 interface SigninResponse {
     jwt: string;
@@ -51,6 +52,7 @@ const SigninForm = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
+            <Header />
             <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Вхід</h2>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
@@ -55,6 +56,7 @@ const SignupForm = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <Header />
             <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Реєстрація</h2>
 
